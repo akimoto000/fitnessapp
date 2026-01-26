@@ -429,29 +429,290 @@
 
 ---
 
-## 7. 開発ロードマップ
+## 7. 開発ロードマップ（詳細版）
 
-### Phase 1: MVP
-- 基本記録機能
-- 履歴表示
-- シンプルなグラフ
-- 目標: ユーザーが毎日の記録を取れる状態
+### 全体スケジュール概要
 
-### Phase 2: 成長
-- ルーティン/テンプレート
-- 詳細分析
-- ゲーミフィケーション基礎
-- 目標: ユーザーの継続率向上
-
-### Phase 3: 差別化
-- AI機能
-- ソーシャル機能
-- ウェアラブル連携
-- 目標: 競合との明確な差別化
+```
+Phase 0: 環境構築・準備
+    ↓
+Phase 1: MVP（基本機能）
+    ↓
+Phase 2: コア機能（AIアバター・音声入力）
+    ↓
+Phase 3: 成長機能（分析・ゲーミフィケーション）
+    ↓
+Phase 4: 拡張機能（ソーシャル・連携）
+```
 
 ---
 
-## 8. 参考リンク
+### Phase 0: 環境構築・準備
+
+#### 0-1. 開発環境セットアップ
+```
+[ ] Node.js (v18+) インストール
+[ ] Expo CLI インストール: npm install -g @expo/cli
+[ ] React Native 開発環境構築
+[ ] iOS Simulator / Android Emulator 設定
+[ ] Git リポジトリ作成
+[ ] ESLint / Prettier 設定
+```
+
+#### 0-2. プロジェクト初期化
+```
+[ ] Expo プロジェクト作成: npx create-expo-app fitness-app
+[ ] TypeScript 設定
+[ ] フォルダ構成の整備
+    src/
+    ├── components/     # UIコンポーネント
+    ├── screens/        # 画面
+    ├── hooks/          # カスタムフック
+    ├── services/       # API・外部サービス
+    ├── stores/         # 状態管理
+    ├── types/          # 型定義
+    ├── utils/          # ユーティリティ
+    └── assets/         # 画像・フォント
+```
+
+#### 0-3. バックエンド準備（Supabase）
+```
+[ ] Supabase プロジェクト作成
+[ ] データベーススキーマ設計
+[ ] 認証設定（Email/Google/Apple）
+[ ] Row Level Security (RLS) 設定
+```
+
+#### 0-4. デザイン準備
+```
+[ ] AIアバターイラスト発注/作成（6キャラ × 3表情 = 18枚）
+[ ] UIカラースキーム決定
+[ ] アイコン・ロゴ作成
+[ ] Figma等でワイヤーフレーム作成
+```
+
+---
+
+### Phase 1: MVP（基本機能）
+
+#### 1-1. 認証機能
+```
+[ ] サインアップ画面
+[ ] ログイン画面
+[ ] パスワードリセット
+[ ] ユーザープロファイル設定
+```
+
+#### 1-2. 種目マスタ
+```
+[ ] プリセット種目データ作成（50種目程度）
+[ ] 種目カテゴリ（胸/背中/脚/肩/腕/腹/有酸素）
+[ ] カスタム種目追加機能
+```
+
+#### 1-3. ワークアウト記録（手動入力）
+```
+[ ] ワークアウト開始画面
+[ ] 種目選択UI
+[ ] セット入力UI（重量・回数）
+[ ] 休憩タイマー
+[ ] ワークアウト完了・保存
+```
+
+#### 1-4. 履歴表示
+```
+[ ] カレンダービュー
+[ ] 日別ワークアウト詳細
+[ ] 種目別履歴一覧
+```
+
+#### 1-5. 基本グラフ
+```
+[ ] 種目別重量推移グラフ
+[ ] 総ボリューム推移
+```
+
+---
+
+### Phase 2: コア機能（AIアバター・音声入力）★差別化
+
+#### 2-1. AIアバタートレーナー
+```
+[ ] アバター選択画面
+[ ] アバター表示コンポーネント
+[ ] メッセージ表示システム
+[ ] トリガー条件の実装
+    - ワークアウト開始時
+    - セット完了時
+    - 自己ベスト更新時
+    - ワークアウト完了時
+[ ] キャラクター別メッセージデータ作成
+```
+
+#### 2-2. 音声入力機能
+```
+[ ] 音声認識基盤実装（expo-speech / react-native-voice）
+[ ] 種目名認識辞書
+[ ] 数値パース処理（「60キロ」→ 60）
+[ ] 確認UI表示
+[ ] 省略コマンド実装（「同じ」「プラス5」等）
+```
+
+---
+
+### Phase 3: 成長機能
+
+#### 3-1. 高度な分析
+```
+[ ] 1RM計算機能
+[ ] 部位別ボリューム分析
+[ ] 週間・月間サマリー
+```
+
+#### 3-2. ルーティン・テンプレート
+```
+[ ] テンプレート作成
+[ ] テンプレートからのクイックスタート
+```
+
+#### 3-3. ゲーミフィケーション
+```
+[ ] 連続トレーニング日数
+[ ] バッジ・アチーブメント
+[ ] レベルシステム
+```
+
+---
+
+### Phase 4: 拡張機能
+
+#### 4-1. ソーシャル機能
+```
+[ ] フォロー/フォロワー
+[ ] ワークアウト共有
+```
+
+#### 4-2. 外部連携
+```
+[ ] Apple Health / Google Fit 連携
+[ ] Apple Watch 対応
+```
+
+---
+
+## 8. 必要なAPI・サービス一覧
+
+### 必須（Phase 1-2で必要）
+
+| サービス | 用途 | 料金 | 取得方法 |
+|---------|------|------|---------|
+| **Supabase** | DB・認証・ストレージ | 無料枠あり（500MB DB, 1GB Storage） | https://supabase.com でプロジェクト作成 |
+| **Expo** | React Native開発 | 無料 | https://expo.dev でアカウント作成 |
+| **Apple Developer** | iOS配布・App Store | $99/年 | https://developer.apple.com |
+| **Google Play Console** | Android配布 | $25（一回） | https://play.google.com/console |
+
+### 音声認識（Phase 2で必要）
+
+| プラットフォーム | API | 料金 | 備考 |
+|----------------|-----|------|------|
+| **iOS** | Speech Framework | 無料（端末内蔵） | オフライン対応可 |
+| **Android** | SpeechRecognizer | 無料（端末内蔵） | Google音声認識 |
+| **クロスプラットフォーム** | react-native-voice | 無料 | 上記APIのラッパー |
+
+### オプション（将来拡張用）
+
+| サービス | 用途 | 料金 | 備考 |
+|---------|------|------|------|
+| **OpenAI API** | AI機能強化 | 従量課金 | プログラム提案等 |
+| **Apple HealthKit** | 健康データ連携 | 無料 | iOS専用 |
+| **Google Fit API** | 健康データ連携 | 無料 | Android専用 |
+| **RevenueCat** | 課金管理 | 無料枠あり | サブスク実装時 |
+| **Firebase Analytics** | 分析 | 無料 | ユーザー行動分析 |
+| **Sentry** | エラー監視 | 無料枠あり | クラッシュレポート |
+
+---
+
+## 9. データベース設計（Supabase）
+
+### テーブル構成
+
+```sql
+-- ユーザー
+users (
+  id UUID PRIMARY KEY,
+  email TEXT UNIQUE,
+  display_name TEXT,
+  avatar_trainer TEXT DEFAULT 'yuki',  -- 選択中のAIアバター
+  created_at TIMESTAMP
+)
+
+-- 種目マスタ
+exercises (
+  id UUID PRIMARY KEY,
+  name TEXT,
+  category TEXT,  -- chest, back, legs, shoulders, arms, abs, cardio
+  is_custom BOOLEAN DEFAULT false,
+  user_id UUID REFERENCES users(id),  -- カスタム種目の場合
+  created_at TIMESTAMP
+)
+
+-- ワークアウトセッション
+workouts (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  started_at TIMESTAMP,
+  completed_at TIMESTAMP,
+  notes TEXT
+)
+
+-- セット記録
+sets (
+  id UUID PRIMARY KEY,
+  workout_id UUID REFERENCES workouts(id),
+  exercise_id UUID REFERENCES exercises(id),
+  set_number INT,
+  weight DECIMAL,
+  reps INT,
+  set_type TEXT,  -- warmup, normal, drop, failure
+  created_at TIMESTAMP
+)
+
+-- 自己ベスト記録（自動更新）
+personal_records (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  exercise_id UUID REFERENCES exercises(id),
+  max_weight DECIMAL,
+  max_reps INT,
+  estimated_1rm DECIMAL,
+  achieved_at TIMESTAMP
+)
+```
+
+---
+
+## 10. 推奨パッケージ一覧
+
+### 必須パッケージ
+```json
+{
+  "dependencies": {
+    "expo": "^50.0.0",
+    "@supabase/supabase-js": "^2.x",
+    "@react-navigation/native": "^6.x",
+    "@react-navigation/bottom-tabs": "^6.x",
+    "react-native-voice": "^3.x",
+    "react-native-chart-kit": "^6.x",
+    "react-native-calendars": "^1.x",
+    "date-fns": "^3.x",
+    "zustand": "^4.x"
+  }
+}
+```
+
+---
+
+## 11. 参考リンク
 
 ### 競合アプリ
 - [Hevy - Workout Tracker](https://www.hevyapp.com/)
