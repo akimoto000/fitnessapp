@@ -12,10 +12,12 @@ export type AvatarExpression =
 export const DEFAULT_AVATAR_EXPRESSION: AvatarExpression = 'normal';
 
 export const AVATAR_TRIGGER_EXPRESSIONS: Record<AvatarMessageTrigger, AvatarExpression> = {
-  workoutStart: 'encourage',
+  workoutStart: 'focused',
   setComplete: 'encourage',
-  personalBest: 'praise',
+  personalBest: 'surprised',
   workoutComplete: 'praise',
+  restStart: 'rest',
+  heavyLift: 'focused',
 };
 
 export const AVATAR_ASSETS = {
