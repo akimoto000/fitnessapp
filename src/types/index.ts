@@ -1,85 +1,121 @@
-// ユーザー
-export interface User {
+export type AvatarType = 'yuki' | 'sakura' | 'ryu' | 'miku' | 'ken' | 'ai7';
+
+export type AvatarMessageTrigger =
+  | 'workoutStart'
+  | 'setComplete'
+  | 'personalBest'
+  | 'workoutComplete'
+  | 'restStart'
+  | 'heavyLift';
+
+export type ExerciseCategory =
+  | 'chest'
+  | 'back'
+  | 'legs'
+  | 'shoulders'
+  | 'arms'
+  | 'abs'
+  | 'cardio';
+
+export type SetType = 'warmup' | 'normal' | 'drop' | 'failure';
+
+export interface ProfileRow {
   id: string;
-  email: string;
-  display_name: string;
-  selected_avatar: AvatarType;
+  display_name: string | null;
+  avatar_trainer: AvatarType;
+  weight_kg: number | null;
+  height_cm: number | null;
+  unit: string | null;
   created_at: string;
   updated_at: string;
 }
 
-// AIアバタートレーナー
-export type AvatarType = 'yuki' | 'sakura' | 'ryu' | 'miku' | 'ken' | 'ai7';
-
-export interface Avatar {
-  id: AvatarType;
-  name: string;
-  personality: string;
-  phrases: {
-    start: string[];
-    setComplete: string[];
-    personalBest: string[];
-    workoutComplete: string[];
-  };
-}
-
-// 種目
-export interface Exercise {
+export interface ExerciseRow {
   id: string;
   name: string;
-  muscle_group: MuscleGroup;
-  equipment?: string;
+  category: ExerciseCategory;
   is_custom: boolean;
-  user_id?: string;
+  user_id: string | null;
+  created_at: string;
 }
 
-export type MuscleGroup = 
-  | 'chest'      // 胸
-  | 'back'       // 背中
-  | 'shoulders'  // 肩
-  | 'arms'       // 腕
-  | 'legs'       // 脚
-  | 'core'       // 体幹
-  | 'full_body'; // 全身
-
-// ワークアウトセッション
-export interface Workout {
+export interface WorkoutRow {
   id: string;
   user_id: string;
   started_at: string;
-  completed_at?: string;
-  notes?: string;
+  completed_at: string | null;
+  notes: string | null;
 }
 
-// セット記録
-export interface WorkoutSet {
+export interface SetRow {
   id: string;
   workout_id: string;
   exercise_id: string;
   set_number: number;
-  weight: number;       // kg
-  reps: number;
-  is_warmup: boolean;
-  notes?: string;
+  weight_kg: number | null;
+  reps: number | null;
+  set_type: SetType;
   created_at: string;
 }
 
-// 自己ベスト
-export interface PersonalRecord {
+export interface PersonalRecordRow {
   id: string;
   user_id: string;
   exercise_id: string;
-  weight: number;
-  reps: number;
-  estimated_1rm: number;
+  max_weight_kg: number | null;
+  max_reps: number | null;
+  estimated_1rm: number | null;
   achieved_at: string;
 }
 
-// 音声入力解析結果
-export interface VoiceInputResult {
-  exercise?: string;
-  weight?: number;
-  reps?: number;
-  command?: 'same' | 'plus' | 'minus';
-  modifier?: number;
+export interface WorkoutSummary {
+  id: string;
+  started_at: string;
+  completed_at: string | null;
+  exerciseCount: number;
+  totalVolume: number;
+}
+
+export interface WorkoutSetDetail extends SetRow {
+  exercise_name: string;
+  exercise_category: ExerciseCategory;
+}
+
+export interface WorkoutDetail extends WorkoutSummary {
+  sets: WorkoutSetDetail[];
+}
+
+export interface ExerciseWeightHistoryPoint {
+  date: string;
+  maxWeight: number;
+}
+
+export interface CategoryVolume {
+  category: ExerciseCategory;
+  totalVolume: number;
+}
+
+export interface CreateSetInput {
+  workout_id: string;
+  exercise_id: string;
+  set_number: number;
+  weight_kg: number;
+  reps: number;
+  set_type?: SetType;
+}
+
+export interface UpsertPersonalRecordInput {
+  user_id: string;
+  exercise_id: string;
+  max_weight_kg: number;
+  max_reps: number;
+  estimated_1rm: number;
+}
+
+export interface ProfileUpdateInput {
+  display_name?: string | null;
+  avatar_trainer?: AvatarType;
+  weight_kg?: number | null;
+  height_cm?: number | null;
+  unit?: string;
 }
